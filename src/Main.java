@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 
 public class Main {
     public static void main(String[] args) {
+        WordDatabase wd = new WordDatabase();
+        System.out.println(wd.randomWord());
         try {
             //Opretter et server socket objekt med vores port/"dørnøgle"
             ServerSocket serverSocket = new ServerSocket(6666);
@@ -22,7 +24,6 @@ public class Main {
             outFromServer.writeUTF("Du har oprettet forbindelse til server");
 
             serverSocket.close();
-
 
         } catch (IOException e) {
             System.out.println(e);
