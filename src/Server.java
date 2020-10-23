@@ -7,13 +7,20 @@ import java.util.ArrayList;
 
 public class Server {
 
-    private static final int port = 6666;
-    //list to hold clients
-    private static ArrayList<ClientHandler> clients = new ArrayList<>();
+    private int port = 6666;
+    private ArrayList<ClientHandler> clients;
+
+
+    public Server(){
+        clients = new ArrayList<>();
+    }
 
     public static void main(String[] args) {
+        Server server = new Server();
+        server.startServer();
+    }
 
-
+    public void startServer(){
         new Thread(() ->{ //thread for server socket
             try{
                 //Opretter et server socket objekt med vores port/"dørnøgle"
@@ -24,12 +31,12 @@ public class Server {
                     //create new client sockets
                     Socket socket = serverSocket.accept();
 
-                    //create thread for client communication (takes in clienhandler object that implements runnable)
-                    ClientHandler clientHandler = new ClientHandler(socket);
-                    new Thread(clientHandler).start();
+                    //create thread for client communication (takes in clienthandler object that implements runnable interface)
+                    ClientHandler clientHandler = new ClientHandler(socket, this, clients);
 
                     //add to client arraylist
                     clients.add(clientHandler);
+                    new Thread(clientHandler).start();
 
                 }
 
@@ -38,6 +45,5 @@ public class Server {
             }
 
         }).start(); //start thread for server socket
-
     }
 }
