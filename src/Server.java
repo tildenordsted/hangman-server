@@ -45,7 +45,5 @@ public class Server {
             }
 
         }).start(); //start thread for server socket
-
     }
-
 }
