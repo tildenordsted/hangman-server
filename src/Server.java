@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Server {
 
@@ -17,6 +18,7 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = new Server();
+
         server.startServer();
     }
 
