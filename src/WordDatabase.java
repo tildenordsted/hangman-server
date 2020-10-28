@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+//kommentar
 
 public class WordDatabase {
     List<String> wordList = new ArrayList<String>();
