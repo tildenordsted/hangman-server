@@ -54,13 +54,29 @@ public class GameRoomSession implements Runnable{
     @Override
     public void run() {
 
+        while(isRunning){
+            if(clients.size() == 2){
+                try{
+                    if(showScore){
+                        writeToAllInRoom(new Message(getClientListNamesAndLives(), "updateusers"));
+                        showScore = false;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
-
-
-
-
-
+            if(clients.get(0).getGuess() != null) {
+                try {
+                    writeToAllInRoom(new Message(clients.get(0).getGuess(), "newguess"));
+                    clients.get(0).setGuess(null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }//end while isRunning
     } //end run
-
-
 }
+
+
+
