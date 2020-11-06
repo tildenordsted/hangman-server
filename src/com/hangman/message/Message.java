@@ -3,6 +3,7 @@ package com.hangman.message;
 public class Message implements java.io.Serializable {
     private String message;
     private String typeOfMessage;
+    private static final long serialVersionUID = -5399605122490343339L;
 
 
     //constructor for message
