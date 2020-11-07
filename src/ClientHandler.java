@@ -69,22 +69,22 @@ public class ClientHandler implements Runnable {
 
                     //get the message content (gameroom index), and parse to an int
                     int gameRoomIndex = Integer.parseInt(message.getMessage());
+                  
+                    //only add player to room, if theres room (max 3 players)
+                    if(server.getAGameRoom(gameRoomIndex).getClients().size() < 3){
+                        //set this clients gameroom index
+                        setGameRoomIndex(gameRoomIndex);
 
-                    //set this clients gameroom index
-                    setGameRoomIndex(gameRoomIndex);
+                        //get a room by index and add client to it
+                        server.getAGameRoom(gameRoomIndex).addClientToRoom(this);
 
-                    //get a room by index and add client to it
-                    server.getAGameRoom(gameRoomIndex).addClientToRoom(this);
+                        Message updateLobby = new Message(server.getGameRoomListAndUsersAsString(), "updatelobby");
 
+                        System.out.println(server.getGameRoomListAndUsersAsString());
+                        //update lobby message to all clients
+                        writeToAllClients(updateLobby);
 
-                    //TODO: Send some string data to client to show in lobby
-                    Message updateLobby = new Message(server.getGameRoomListAndUsersAsString(), "updatelobby");
-
-                    System.out.println(server.getGameRoomListAndUsersAsString());
-                    //update lobby message to all clients
-                    writeToAllClients(updateLobby);
-
-
+                    }
                 }
 
                 //if type of message is newgame
@@ -108,11 +108,9 @@ public class ClientHandler implements Runnable {
 
                 //if type of message is guess
                 if(typeOfMessage.equalsIgnoreCase("guess")){
-
                     String guess = message.getMessage();
                     this.setGuess(guess);
 
-                    System.out.println(this.getGuess());
 
                 }
 
@@ -159,6 +157,7 @@ public class ClientHandler implements Runnable {
     public void writeMessageToUser(Message message) throws IOException{
         this.objectOutputStream.writeObject(message);
         this.objectOutputStream.flush();
+
     }
 
     public ObjectInputStream getObjectInputStream() {
@@ -169,6 +168,7 @@ public class ClientHandler implements Runnable {
         for(ClientHandler client : clients){
             client.objectOutputStream.writeObject(message);
             client.objectOutputStream.flush();
+
         }
     }
 
