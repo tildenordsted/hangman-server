@@ -69,8 +69,7 @@ public class ClientHandler implements Runnable {
 
                     //get the message content (gameroom index), and parse to an int
                     int gameRoomIndex = Integer.parseInt(message.getMessage());
-
-
+                  
                     //only add player to room, if theres room (max 3 players)
                     if(server.getAGameRoom(gameRoomIndex).getClients().size() < 3){
                         //set this clients gameroom index
@@ -86,7 +85,6 @@ public class ClientHandler implements Runnable {
                         writeToAllClients(updateLobby);
 
                     }
-
                 }
 
                 //if type of message is newgame
@@ -110,12 +108,8 @@ public class ClientHandler implements Runnable {
 
                 //if type of message is guess
                 if(typeOfMessage.equalsIgnoreCase("guess")){
-
                     String guess = message.getMessage();
                     this.setGuess(guess);
-
-                    System.out.println(this.getGuess());
-
 
 
                 }
