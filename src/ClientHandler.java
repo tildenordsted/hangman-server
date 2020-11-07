@@ -79,8 +79,6 @@ public class ClientHandler implements Runnable {
                         //get a room by index and add client to it
                         server.getAGameRoom(gameRoomIndex).addClientToRoom(this);
 
-
-                        //TODO: Send some string data to client to show in lobby
                         Message updateLobby = new Message(server.getGameRoomListAndUsersAsString(), "updatelobby");
 
                         System.out.println(server.getGameRoomListAndUsersAsString());
