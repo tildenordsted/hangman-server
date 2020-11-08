@@ -11,6 +11,7 @@ public class WordDatabase {
     private String setWord;
     private StringBuilder guessWord;
     private String guessedChar = "";
+    private int minusLives = 0;
 
     public WordDatabase() {
         try {
@@ -34,7 +35,7 @@ public class WordDatabase {
         return wordList.get(randomIndex);
     }
 
-    public String checkString(String input, WordDatabase wd) {
+    public void checkString(String input, WordDatabase wd) {
         String word = wd.getWord();
         System.out.println(word);
         //If the anonymous word isn't set to the word selected
@@ -44,11 +45,10 @@ public class WordDatabase {
             anoWord = "?".repeat(word.length());
             guessWord = new StringBuilder(anoWord);
         }
-
         //if (input.equals(word)) {
         //return word;
         if (word.contains(input)) {
-            //Convert inputed string to character array
+            //Convert input string to character array
             char[] inputChar = input.toCharArray();
             StringBuilder newString = new StringBuilder(anoWord);
             //Loop through the word and se where the input matches the words character
@@ -60,14 +60,15 @@ public class WordDatabase {
                 }
             }
             System.out.println(guessWord);
-            return newString.toString();
+            //return newString.toString();
         } else if (!word.contains(input)){
             guessedChar += input;
-            System.out.println(guessedChar);
+            minusLives = 1;
+            //System.out.println(guessedChar);
         }
         //System.out.println(newString);
         System.out.println(guessWord);
-        return word;
+        //return word;
     }
 
     public void setString(String setWord) {
@@ -77,4 +78,17 @@ public class WordDatabase {
     public String getWord () {
         return setWord;
     }
+
+    public String getAnoword(){
+        return anoWord;
+    }
+
+    public int getMinusLives(){
+        return minusLives;
+    }
+
+    public void setMinusLives(int minusLives){
+        this.minusLives = minusLives;
+    }
+
 }
