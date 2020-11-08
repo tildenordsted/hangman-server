@@ -10,6 +10,7 @@ public class GameRoomSession implements Runnable{
     Boolean isRunning = true;
     Boolean showScore = true;
 
+    private boolean showUsername = true;
     private WordDatabase wordDatabase;
 
     //private ArrayList<ClientHandler> clients = new ArrayList<>();
@@ -69,29 +70,63 @@ public class GameRoomSession implements Runnable{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                for(int i = 0; i < clients.size(); i++) {
-                    //if(clients.get(i) != clients.get(2)) {
-                        if (clients.get(i).getLives() == clients.get(2).getLives()) {
-                            if (clients.get(i).getGuess() != null) {
-                                try {
-                                    wordDatabase.checkString(clients.get(i).getGuess(), wordDatabase);
-                                    clients.get(i).setLives(clients.get(i).getLives()-wordDatabase.getMinusLives());
-                                    wordDatabase.setMinusLives(0);
-                                    System.out.println(clients.get(0).getLives());
-                                    System.out.println(clients.get(1).getLives());
-                                    System.out.println(clients.get(2).getLives());
-                                    System.out.println(wordDatabase.getMinusLives());
-                                    writeToAllInRoom(new Message(clients.get(i).getGuess(), "newguess"));
-                                    clients.get(i).setGuess(null);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                int i = 0;
+                    do {
+                        if(showUsername) {
+                            try {
+                                writeToAllInRoom(new Message(clients.get(i).getUserName(), "playersturn"));
+                                showUsername = false;
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
+                        if (clients.get(i).getGuess() != null) {
+                            try {
+                                writeToAllInRoom(new Message(clients.get(i).getGuess(), "newguess"));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                if(!wordDatabase.checkString(clients.get(i).getGuess(), wordDatabase)){
+                                    clients.get(i).setLives(clients.get(i).getLives() - wordDatabase.getMinusLives());
+                                    wordDatabase.setMinusLives(0);
+                                    showUsername = true;
+                                    if(clients.get(i) != clients.get(2)){
+                                        i++;
+                                    }else{
+                                        i=0;
+                                    }
+                                    //writeToAllInRoom(new Message(clients.get(i).getGuess(), "newguess"));
+                                    writeToAllInRoom(new Message(wordDatabase.getGuessWord(), "updateword"));
+                                    writeToAllInRoom(new Message(getClientListNamesAndLives(), "updateusers"));
+                                    writeToAllInRoom(new Message("updateimage", "updateimage"));
+                                }else {
+                                    //clients.get(i).setLives(clients.get(i).getLives() - wordDatabase.getMinusLives());
+                                    //wordDatabase.setMinusLives(0);
+                                    //System.out.println(clients.get(0).getLives());
+                                    //System.out.println(clients.get(1).getLives());
+                                    //System.out.println(clients.get(2).getLives());
+                                    //System.out.println(wordDatabase.getMinusLives());
+                                    //writeToAllInRoom(new Message(clients.get(i).getGuess(), "newguess"));
+                                    writeToAllInRoom(new Message(wordDatabase.getGuessWord(), "updateword"));
+                                    writeToAllInRoom(new Message(getClientListNamesAndLives(), "updateusers"));
+                                    showUsername = true;
+                                }
+                                clients.get(0).setGuess(null);
+                                clients.get(1).setGuess(null);
+                                clients.get(2).setGuess(null);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        /*if(clients.get(i) == clients.get(2)) {
+                            i = 0;
+                        }else if(clients.get(i).getLives() != clients.get(2).getLives()) {
+                            i++;
+                        }*/
+                    }while(clients.get(2).getLives() >= 1);
                 }
-            }
         }//end while isRunning
     } //end run
 }
-
 
