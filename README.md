@@ -1,3 +1,5 @@
 # Server part for Hangman game
 
-Documentation to come
+The server runs on port 6666. 
+The server facilitates having multiple gamerooms running simultaneously, where each gameroom starts when there is 3 players connected. 
+
