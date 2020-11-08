@@ -6,5 +6,6 @@ The server facilitates having multiple gamerooms running simultaneously, where e
 Not implemented:
 -Not possible to take a return, only one game.
 -The game breaks if a player closes the window.
+-User winner is not notified
 
 
