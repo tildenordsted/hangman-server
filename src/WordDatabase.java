@@ -12,6 +12,7 @@ public class WordDatabase {
     private StringBuilder guessWord;
     private String guessedChar = "";
     private int minusLives = 0;
+    private boolean turn;
 
     public WordDatabase() {
         try {
@@ -35,7 +36,7 @@ public class WordDatabase {
         return wordList.get(randomIndex);
     }
 
-    public void checkString(String input, WordDatabase wd) {
+    public boolean checkString(String input, WordDatabase wd) {
         String word = wd.getWord();
         System.out.println(word);
         //If the anonymous word isn't set to the word selected
@@ -60,15 +61,18 @@ public class WordDatabase {
                 }
             }
             System.out.println(guessWord);
+            turn = true;
             //return newString.toString();
         } else if (!word.contains(input)){
             guessedChar += input;
             minusLives = 1;
+            turn = false;
             //System.out.println(guessedChar);
         }
         //System.out.println(newString);
         System.out.println(guessWord);
         //return word;
+        return turn;
     }
 
     public void setString(String setWord) {
@@ -77,6 +81,14 @@ public class WordDatabase {
 
     public String getWord () {
         return setWord;
+    }
+
+    public void setGuessedWord(StringBuilder guessWord){
+        this.guessWord = guessWord;
+    }
+
+    public String getGuessWord(){
+        return guessWord.toString();
     }
 
     public String getAnoword(){
