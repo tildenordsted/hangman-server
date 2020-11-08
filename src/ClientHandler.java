@@ -14,7 +14,7 @@ public class ClientHandler implements Runnable {
     private ArrayList<ClientHandler> clients;
     private String userName;
     private int points;
-    private int lives;
+    private int lives = 3;
     private String guess;
     private int gameRoomIndex;
     private Message message = null;
@@ -83,8 +83,6 @@ public class ClientHandler implements Runnable {
                     System.out.println(server.getGameRoomListAndUsersAsString());
                     //update lobby message to all clients
                     writeToAllClients(updateLobby);
-
-
                 }
 
                 //if type of message is newgame
@@ -102,8 +100,6 @@ public class ClientHandler implements Runnable {
                     writeToAllClients(updateLobby);
 
                     //TODO This newly created gameroom should be put in a thread and started
-
-
                 }
 
                 //if type of message is guess
@@ -113,12 +109,8 @@ public class ClientHandler implements Runnable {
                     this.setGuess(guess);
 
                     System.out.println(this.getGuess());
-
                 }
-
-
             }
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
